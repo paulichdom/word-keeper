@@ -56,7 +56,7 @@ export default function IconInput({
             '--width': `${width}px`,
             '--height': `${styles.height / 16}rem`,
             '--borderThickness': `${styles.borderThickness}px`,
-            '--fontSize': `${styles.fontSize /16}rem`,
+            '--fontSize': `${styles.fontSize / 16}rem`,
           } as React.CSSProperties
         }
       />
@@ -65,13 +65,9 @@ export default function IconInput({
 }
 
 const Wrapper = styled.label`
-  display: block;
+  //display: block;
   position: relative;
   color: ${ColorPalette.white};
-
-  &:hover {
-    color: gray;
-  }
 `;
 
 const IconWrapper = styled.div`
