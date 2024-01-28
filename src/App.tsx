@@ -44,14 +44,13 @@ export default function App() {
 
       const wordPayload = {
         word: term.word,
-        phonetic: phonetic.text,
-        audio: phonetic.audio,
+        phonetic: phonetic[0].text,
+        audio: phonetic[0].audio,
         sourceUrl: term.sourceUrls[0],
         definition: term.meanings[0].definitions[0].definition,
         partOfSpeech: term.meanings[0].partOfSpeech,
       };
 
-      console.log({ result, wordPayload, phonetic });
       setWordResult(wordPayload);
     } catch (error) {
       console.error(error);
@@ -80,6 +79,10 @@ export default function App() {
               {wordResult.word} {`(${wordResult.partOfSpeech})`}
             </h2>
             <p>Definition: {wordResult.definition}</p>
+            <figure>
+              <figcaption>Play pronunciation:</figcaption>
+              <audio controls src={wordResult.audio}></audio>
+            </figure>
           </>
         )}
       </WordContainer>
