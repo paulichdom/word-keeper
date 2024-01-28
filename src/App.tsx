@@ -9,22 +9,55 @@ import { useState } from 'react';
  * 3) API 2: https://www.twinword.com/api/word-dictionary.php
  * 4) Combine api's for better results
  * 5) Implement search
+ * 6) Speeech to text
+ * 7) Play spoken word
  *
  * Could use more different apis to get better results
  */
 export default function App() {
   const [inputValue, setInputValue] = useState<string>('');
+  const [wordResult, setWordResult] = useState({
+    word: '',
+    phonetic: '',
+    audio: '',
+    sourceUrl: '',
+    definition: '',
+    partOfSpeech: '',
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setIsLoading(true);
 
-    const response = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`
-    );
+    try {
+      const response = await fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`
+      );
 
-    const word = response.json();
+      const result = await response.json();
+      const term = result[0];
 
-    console.log({ word });
+      const phonetic = term.phonetics.filter(
+        (entry: { audio: string }) => entry.audio !== ''
+      );
+
+      const wordPayload = {
+        word: term.word,
+        phonetic: phonetic.text,
+        audio: phonetic.audio,
+        sourceUrl: term.sourceUrls[0],
+        definition: term.meanings[0].definitions[0].definition,
+        partOfSpeech: term.meanings[0].partOfSpeech,
+      };
+
+      console.log({ result, wordPayload, phonetic });
+      setWordResult(wordPayload);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,9 +72,27 @@ export default function App() {
           onChange={(event) => setInputValue(event.target.value)}
         />
       </Form>
+      <WordContainer>
+        {isLoading && <p>Searching for word ...</p>}
+        {!isLoading && wordResult.word && (
+          <>
+            <h2>
+              {wordResult.word} {`(${wordResult.partOfSpeech})`}
+            </h2>
+            <p>Definition: {wordResult.definition}</p>
+          </>
+        )}
+      </WordContainer>
     </Container>
   );
 }
+
+const WordContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
 
 const Container = styled.div`
   display: flex;
