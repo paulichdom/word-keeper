@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import './App.css';
 import { useState } from 'react';
+import { DictionaryEntry, DictionaryEntryItem } from './types';
 
 /**
  * TODO:
@@ -35,20 +36,28 @@ export default function App() {
         `https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`
       );
 
-      const result = await response.json();
-      const term = result[0];
+      const dictionaryEntry: DictionaryEntry = await response.json();
 
-      const phonetic = term.phonetics.filter(
+      const [dictionaryEntryItem] = dictionaryEntry;
+      const { word, sourceUrls, meanings, phonetics } = dictionaryEntryItem;
+      const [meaning] = meanings;
+      const { definitions, partOfSpeech } = meaning;
+      const [definiton] = definitions;
+      const [sourceUrl] = sourceUrls;
+
+      const filteredPhonetics = phonetics.filter(
         (entry: { audio: string }) => entry.audio !== ''
       );
 
+      const [phonetic] = filteredPhonetics;
+
       const wordPayload = {
-        word: term.word,
-        phonetic: phonetic[0].text,
-        audio: phonetic[0].audio,
-        sourceUrl: term.sourceUrls[0],
-        definition: term.meanings[0].definitions[0].definition,
-        partOfSpeech: term.meanings[0].partOfSpeech,
+        word,
+        phonetic: phonetic.text,
+        audio: phonetic.audio,
+        sourceUrl,
+        definition: definiton.definition,
+        partOfSpeech,
       };
 
       setWordResult(wordPayload);
