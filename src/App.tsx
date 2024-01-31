@@ -1,7 +1,16 @@
 import styled from 'styled-components';
 import './App.css';
 import { useState } from 'react';
-import { DictionaryEntry, DictionaryEntryItem } from './types';
+import { DictionaryEntry } from './types';
+
+interface WordResult {
+  word: string;
+  phonetic: string;
+  audio: string;
+  sourceUrl: string;
+  definition: string;
+  partOfSpeech: string;
+}
 
 /**
  * TODO:
@@ -17,7 +26,7 @@ import { DictionaryEntry, DictionaryEntryItem } from './types';
  */
 export default function App() {
   const [inputValue, setInputValue] = useState<string>('');
-  const [wordResult, setWordResult] = useState({
+  const [wordResult, setWordResult] = useState<WordResult>({
     word: '',
     phonetic: '',
     audio: '',
@@ -68,6 +77,23 @@ export default function App() {
     }
   };
 
+  const isWordResultValid = (wordResult: WordResult): boolean => {
+    const requiredFileds = [
+      'word',
+      'phonetic',
+      'audio',
+      'sourceUrl',
+      'definition',
+      'partOfSpeech',
+    ];
+
+    return requiredFileds.every(
+      (field) => wordResult[field as keyof WordResult]
+    );
+  };
+
+  const hasWordData = isWordResultValid(wordResult);
+
   return (
     <Container>
       <h3>Word Keeper</h3>
@@ -76,13 +102,14 @@ export default function App() {
         <StyledInput
           type="text"
           id="word"
+          aria-label="Search word"
           required
           onChange={(event) => setInputValue(event.target.value)}
         />
       </Form>
       <WordContainer>
         {isLoading && <p>Searching for word ...</p>}
-        {!isLoading && wordResult.word && (
+        {!isLoading && hasWordData && (
           <>
             <h2>
               {wordResult.word} {`(${wordResult.partOfSpeech})`}
