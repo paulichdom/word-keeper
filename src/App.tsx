@@ -45,6 +45,10 @@ export default function App() {
         `https://api.dictionaryapi.dev/api/v2/entries/en/${inputValue}`
       );
 
+      if (!response.ok) {
+        throw new Error('Failed to fetch word data.');
+      }
+
       const dictionaryEntry: DictionaryEntry = await response.json();
 
       const [dictionaryEntryItem] = dictionaryEntry;
@@ -62,8 +66,8 @@ export default function App() {
 
       const wordPayload = {
         word,
-        phonetic: phonetic.text,
-        audio: phonetic.audio,
+        phonetic: phonetic ? phonetic.text : '',
+        audio: phonetic ? phonetic.audio : '',
         sourceUrl,
         definition: definiton.definition,
         partOfSpeech,
@@ -77,18 +81,15 @@ export default function App() {
     }
   };
 
+  /**
+   * Check if each essential field is truthy
+   * (i.e., it exists and is not an empty string, null, or undefined)
+   */
   const isWordResultValid = (wordResult: WordResult): boolean => {
-    const requiredFileds = [
-      'word',
-      'phonetic',
-      'audio',
-      'sourceUrl',
-      'definition',
-      'partOfSpeech',
-    ];
+    const essentialFields = ['word', 'definition', 'partOfSpeech'];
 
-    return requiredFileds.every(
-      (field) => wordResult[field as keyof WordResult]
+    return essentialFields.every((field) =>
+      Boolean(wordResult[field as keyof WordResult])
     );
   };
 
@@ -115,10 +116,12 @@ export default function App() {
               {wordResult.word} {`(${wordResult.partOfSpeech})`}
             </h2>
             <p>Definition: {wordResult.definition}</p>
-            <figure>
-              <figcaption>Play pronunciation:</figcaption>
-              <audio controls src={wordResult.audio}></audio>
-            </figure>
+            {wordResult.audio && (
+              <figure>
+                <figcaption>Play pronunciation:</figcaption>
+                <audio controls src={wordResult.audio}></audio>
+              </figure>
+            )}
           </>
         )}
       </WordContainer>
