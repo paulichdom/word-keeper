@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import './App.css';
 import { useState } from 'react';
 import { DictionaryEntry } from './types';
+import { useQuery } from 'convex/react';
+import { api } from '../convex/_generated/api';
 
 interface WordResult {
   word: string;
@@ -25,6 +27,8 @@ interface WordResult {
  * Could use more different apis to get better results
  */
 export default function App() {
+  const dictionary = useQuery(api.dictionary.get);
+  console.log({ dictionary });
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
     word: '',
@@ -115,6 +119,7 @@ export default function App() {
             <h2>
               {wordResult.word} {`(${wordResult.partOfSpeech})`}
             </h2>
+            <button>Add to my dictionary</button>
             <p>Definition: {wordResult.definition}</p>
             {wordResult.audio && (
               <figure>
