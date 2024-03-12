@@ -4,6 +4,15 @@ import { useState } from 'react';
 import { DictionaryEntry } from './types';
 import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
+import SearchBar from './components/search/search';
+import SearchResult from './components/ResultContainer/ResultContainer';
+import Result from './components/Result';
+import CreativeResult from './components/CreativeResult/CreativeResult';
+import WordDetails from './components/WordDetails/WordDetails';
+import WordCard from './components/WordCard/WordCard';
+import WordCardCta from './components/WordCardCta/WordCardCta';
+import WordCardChevron from './components/WordCardChevron/WordCardChevron';
+import TransformingButton from './components/TransformingButton';
 
 interface WordResult {
   word: string;
@@ -23,6 +32,8 @@ interface WordResult {
  * 5) Implement search
  * 6) Speeech to text
  * 7) Play spoken word
+ * 8) If there is no result implement add word manually
+ * 9) Search with google option
  *
  * Could use more different apis to get better results
  */
@@ -129,7 +140,16 @@ export default function App() {
             )}
           </>
         )}
+        <TransformingButton />
       </WordContainer>
+      <SearchBar />
+      {/* <SearchResult /> */}
+      {/* <Result /> */}
+      {/* <CreativeResult /> */}
+      {/* <WordDetails /> */}
+      {/* <WordCard /> */}
+      {/* <WordCardCta /> */}
+      <WordCardChevron />
     </Container>
   );
 }
