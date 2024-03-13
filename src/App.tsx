@@ -39,7 +39,7 @@ interface WordResult {
  */
 export default function App() {
   const dictionary = useQuery(api.dictionary.get);
-  console.log({ dictionary });
+  //console.log({ dictionary });
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
     word: '',
@@ -112,7 +112,7 @@ export default function App() {
 
   return (
     <Container>
-      <h3>Word Keeper</h3>
+      {/*  <h3>Word Keeper</h3>
       <Form onSubmit={handleFormSubmit}>
         <label htmlFor="word">Search word: </label>
         <StyledInput
@@ -122,7 +122,8 @@ export default function App() {
           required
           onChange={(event) => setInputValue(event.target.value)}
         />
-      </Form>
+      </Form> */}
+      <SearchBar handleChange={setInputValue} handleSubmit={handleFormSubmit} />
       <WordContainer>
         {isLoading && <p>Searching for word ...</p>}
         {!isLoading && hasWordData && (
@@ -142,14 +143,14 @@ export default function App() {
         )}
         <TransformingButton />
       </WordContainer>
-      <SearchBar />
+
       {/* <SearchResult /> */}
       {/* <Result /> */}
       {/* <CreativeResult /> */}
       {/* <WordDetails /> */}
       {/* <WordCard /> */}
-      {/* <WordCardCta /> */}
-      <WordCardChevron />
+      <WordCardCta />
+      {/* <WordCardChevron /> */}
     </Container>
   );
 }

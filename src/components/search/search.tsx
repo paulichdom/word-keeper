@@ -59,16 +59,25 @@ const Icon = styled.i`
   margin-right: 5px;
 `;
 
-const SearchBar = () => {
+type SearchBarProps = {
+  handleChange: (event: string) => void;
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+};
+
+const SearchBar = ({ handleChange, handleSubmit }: SearchBarProps) => {
   return (
     <SearchContainer>
       <Title>Lexiconomicon</Title>
       <Byline>Conjure Definitions with a Click—Or a Cluck.</Byline>
-      <SearchInput
-        type="text"
-        placeholder="Search the Great Library..."
-        onKeyDown={() => {}}
-      />
+      <form onSubmit={handleSubmit}>
+        <SearchInput
+          type="text"
+          aria-label="Search word"
+          required
+          placeholder="Search the Great Library..."
+          onChange={(event) => handleChange(event.target.value)}
+        />
+      </form>
       <SearchButton onClick={() => {}}>
         <Icon className="fas fa-search" /> Search
       </SearchButton>
