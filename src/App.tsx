@@ -1,18 +1,13 @@
 import styled from 'styled-components';
-import './App.css';
 import { useState } from 'react';
 import { DictionaryEntry } from './types';
-import { useQuery } from 'convex/react';
-import { api } from '../convex/_generated/api';
-import SearchBar from './components/search/search';
-import SearchResult from './components/ResultContainer/ResultContainer';
-import Result from './components/Result';
-import CreativeResult from './components/CreativeResult/CreativeResult';
-import WordDetails from './components/WordDetails/WordDetails';
+import SearchBar from './components/SearchBar';
 import WordCard from './components/WordCard/WordCard';
-import WordCardCta from './components/WordCardCta/WordCardCta';
-import WordCardChevron from './components/WordCardChevron/WordCardChevron';
-import TransformingButton from './components/TransformingButton';
+//import { useQuery } from 'convex/react';
+//import { api } from '../convex/_generated/api';
+
+import './App.css';
+
 
 interface WordResult {
   word: string;
@@ -38,7 +33,7 @@ interface WordResult {
  * Could use more different apis to get better results
  */
 export default function App() {
-  const dictionary = useQuery(api.dictionary.get);
+  //const dictionary = useQuery(api.dictionary.get);
   //console.log({ dictionary });
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
@@ -116,9 +111,10 @@ export default function App() {
       <WordContainer>
         {isLoading && <LoadingText>Searching for word...</LoadingText>}
         {!isLoading && hasWordData && (
-          <WordCardChevron
+          <WordCard
             word={wordResult.word}
             definition={wordResult.definition}
+            partOfSpeech={wordResult.partOfSpeech}
           />
         )}
       </WordContainer>
@@ -142,41 +138,9 @@ const WordContainer = styled.div`
 
 `;
 
-// Styles
 const LoadingText = styled.p`
   color: #3a2a1a;
   font-family: 'Cinzel', serif;
   text-align: center;
   margin-top: 20px;
-`;
-
-const WordTitle = styled.h2`
-  color: #3a2a1a;
-  font-family: 'Cinzel', serif;
-  text-align: center;
-  margin: 10px 0;
-`;
-
-const AddButton = styled.button`
-  padding: 10px 20px;
-  background-color: #8c7b6b;
-  color: white;
-  border: none;
-  border-radius: 15px;
-  font-family: 'Cinzel', serif;
-  cursor: pointer;
-  display: block;
-  margin: 10px auto;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #a39079;
-  }
-`;
-
-const DefinitionText = styled.p`
-  color: #3a2a1a;
-  font-family: 'Cinzel', serif;
-  text-align: center;
-  margin: 10px 0;
 `;

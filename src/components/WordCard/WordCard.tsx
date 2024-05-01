@@ -1,71 +1,59 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useSpring, animated } from 'react-spring';
-import WordDetails from '../WordDetails';
-import CreativeResult from '../CreativeResult';
+import BookmarkToggle from '../BookmarkToggle';
 
-const CardContainer = styled(animated.div)`
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 20px;
-  padding: 20px;
-  cursor: pointer;
-  will-change: width, height;
-  overflow: hidden;
-`;
-
-const Title = styled.h1`
-  font-family: 'Cinzel', serif;
-  color: #3a2a1a;
-`;
-
-// Your WordDetails styled components remain the same
-
-const WordCard = () => {
-  const [expanded, setExpanded] = useState(false);
-
-  // Dummy data for the demonstration
-  const wordData = {
-    word: "Lexicon",
-    phonetic: "/lɛkˈsɪkɒn/",
-    audio: "https://example.com/lexicon-audio.mp3",
-    meanings: [
-      {
-        partOfSpeech: "noun",
-        definitions: [
-          {definition: "The vocabulary of a person, language, or branch of knowledge."},
-        ],
-        examples: ["The size of the scientific lexicon is increasing every year."],
-        synonyms: ["vocabulary", "terminology", "language", "lingo"],
-        antonyms: [],
-      },
-    ],
-  };
-
-  const animationProps = useSpring({
-    to: {
-      height: expanded ? 'auto' : '100px',
-      opacity: expanded ? 1 : 0.6,
-    },
-    from: {
-      height: '100px',
-      opacity: 0.6,
-    },
-  });
-
-  return (
-    <CardContainer style={animationProps} onClick={() => setExpanded(!expanded)}>
-      {expanded ? (
-        <>
-          <CreativeResult />
-          <WordDetails />
-        </>
-      ) : (
-        <CreativeResult />
-      )}
-    </CardContainer>
-  );
+type WordCardProps = {
+  word: string;
+  definition: string;
+  partOfSpeech: string;
 };
 
+const WordCard = ({ word, definition, partOfSpeech }: WordCardProps) => (
+  <Card>
+    <Word>{word}</Word>
+    <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
+    <Definition>{definition}</Definition>
+    <Row>
+      <BookmarkToggle />
+    </Row>
+  </Card>
+);
+
 export default WordCard;
+
+const Card = styled.div`
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  gap: 6px;
+`;
+
+const Word = styled.h2`
+  color: black;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+`;
+
+const PartOfSpeech = styled.span`
+  color: #666;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.8em;
+  text-align: center;
+`;
+
+const Definition = styled.p`
+  color: black;
+  font-family: 'Open Sans', sans-serif;
+  text-align: left;
+  font-size: 0.95em;
+`;
+
+const Row = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+`;
