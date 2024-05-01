@@ -112,75 +112,71 @@ export default function App() {
 
   return (
     <Container>
-      {/*  <h3>Word Keeper</h3>
-      <Form onSubmit={handleFormSubmit}>
-        <label htmlFor="word">Search word: </label>
-        <StyledInput
-          type="text"
-          id="word"
-          aria-label="Search word"
-          required
-          onChange={(event) => setInputValue(event.target.value)}
-        />
-      </Form> */}
       <SearchBar handleChange={setInputValue} handleSubmit={handleFormSubmit} />
       <WordContainer>
-        {isLoading && <p>Searching for word ...</p>}
+        {isLoading && <LoadingText>Searching for word...</LoadingText>}
         {!isLoading && hasWordData && (
-          <>
-            <h2>
-              {wordResult.word} {`(${wordResult.partOfSpeech})`}
-            </h2>
-            <button>Add to my dictionary</button>
-            <p>Definition: {wordResult.definition}</p>
-            {wordResult.audio && (
-              <figure>
-                <figcaption>Play pronunciation:</figcaption>
-                <audio controls src={wordResult.audio}></audio>
-              </figure>
-            )}
-          </>
+          <WordCardChevron
+            word={wordResult.word}
+            definition={wordResult.definition}
+          />
         )}
-        <TransformingButton />
       </WordContainer>
-
-      {/* <SearchResult /> */}
-      {/* <Result /> */}
-      {/* <CreativeResult /> */}
-      {/* <WordDetails /> */}
-      {/* <WordCard /> */}
-      <WordCardCta />
-      {/* <WordCardChevron /> */}
     </Container>
   );
 }
 
-const WordContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
   justify-content: center;
   align-items: center;
   width: 100%;
+  padding: 12px;
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+const WordContainer = styled.div`
+  width: 100%;
+  padding: 12px;
+
 `;
 
-const StyledInput = styled.input`
-  border: 1px solid black;
-  border-radius: 32px;
-  padding: 8px 32px;
-  outline-offset: 2px;
+// Styles
+const LoadingText = styled.p`
+  color: #3a2a1a;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  margin-top: 20px;
+`;
+
+const WordTitle = styled.h2`
+  color: #3a2a1a;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  margin: 10px 0;
+`;
+
+const AddButton = styled.button`
+  padding: 10px 20px;
+  background-color: #8c7b6b;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-family: 'Cinzel', serif;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #a39079;
+  }
+`;
+
+const DefinitionText = styled.p`
+  color: #3a2a1a;
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  margin: 10px 0;
 `;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PlusCircle, CheckCircle } from 'react-feather';
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
