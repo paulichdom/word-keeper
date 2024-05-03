@@ -8,6 +8,7 @@ import SearchBar from './components/SearchBar';
 
 import './App.css';
 import SearchResult from './components/SearchResult';
+import BottomNavigation from './components/BottomNavigation';
 
 interface WordResult {
   word: string;
@@ -118,6 +119,7 @@ export default function App() {
           />
         )}
       </WordContainer>
+      <BottomNavigation />
     </Container>
   );
 }

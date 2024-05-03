@@ -9,7 +9,7 @@ type WordCardProps = {
 };
 
 const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => (
-  <Card>
+  <Wrapper>
     <Header>
       <IconWrapper>
         <VolumeIcon />
@@ -21,15 +21,14 @@ const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => (
     <Footer>
       <BookmarkToggle />
     </Footer>
-  </Card>
+  </Wrapper>
 );
 
 export default SearchResult;
 
-const Card = styled.div`
+const Wrapper = styled.div`
   background-color: #fff;
   border-radius: 10px;
-  //box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
   padding: 0px 16px;
   display: flex;
   flex-direction: column;
@@ -52,17 +51,17 @@ const IconWrapper = styled.div`
   width: 36px;
   height: 36px;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(21, 128, 250);
   border-radius: 50%;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgb(21, 88, 214);
   }
 `;
 
 const VolumeIcon = styled(Volume2)`
-  color: rgba(0, 0, 0, 0.6);
+  color: white;
   width: 22px;
   height: 22px;
 `;

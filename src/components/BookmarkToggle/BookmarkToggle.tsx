@@ -12,8 +12,8 @@ const BookmarkToggle = () => {
       aria-label={isBookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
     >
       <Bookmark
-        color={isBookmarked ? '#FF7F50  ' : 'grey'}
-        fill={isBookmarked ? '#FF7F50  ' : 'none'}
+        color={isBookmarked ? 'rgb(25, 118, 210)  ' : 'grey'}
+        fill={isBookmarked ? 'rgb(25, 118, 210)  ' : 'none'}
       />
       <Tooltip>
         {isBookmarked ? 'Remove from List' : 'Add to List'}
