@@ -8,7 +8,9 @@ import SearchBar from './components/SearchBar';
 
 import './App.css';
 import SearchResult from './components/SearchResult';
-import BottomNavigation from './components/BottomNavigation';
+import BottomNavigation, { NavItemId } from './components/BottomNavigation';
+import WordCard from './components/WordCard';
+import range from './utils';
 
 interface WordResult {
   word: string;
@@ -30,6 +32,7 @@ interface WordResult {
  * 7) Play spoken word
  * 8) If there is no result implement add word manually
  * 9) Search with google option
+ * 10) add second definition
  *
  * Could use more different apis to get better results
  */
@@ -46,6 +49,7 @@ export default function App() {
     partOfSpeech: '',
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [activeItem, setActiveItem] = useState<NavItemId>('search');
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -106,20 +110,42 @@ export default function App() {
 
   const hasWordData = isWordResultValid(wordResult);
 
+  // TODO: impl header -> body -> footer structure
   return (
     <Container>
-      <SearchBar handleChange={setInputValue} handleSubmit={handleFormSubmit} />
-      <WordContainer>
-        {isLoading && <LoadingText>Searching for word...</LoadingText>}
-        {!isLoading && hasWordData && (
-          <SearchResult
-            word={wordResult.word}
-            definition={wordResult.definition}
-            partOfSpeech={wordResult.partOfSpeech}
+      <Title>Word keeper</Title>
+      {activeItem === 'search' && (
+        <>
+          <SearchBar
+            handleChange={setInputValue}
+            handleSubmit={handleFormSubmit}
           />
-        )}
-      </WordContainer>
-      <BottomNavigation />
+          <WordContainer>
+            {isLoading && <LoadingText>Searching for word...</LoadingText>}
+            {!isLoading && hasWordData && (
+              <SearchResult
+                word={wordResult.word}
+                definition={wordResult.definition}
+                partOfSpeech={wordResult.partOfSpeech}
+              />
+            )}
+          </WordContainer>
+        </>
+      )}
+      {activeItem === 'bookmarks' && (
+        <BookmarksContainer>
+          {range(5).map((num) => (
+            <WordCard
+              key={num}
+              word="Test"
+              partOfSpeech="noun"
+              definition="Lorem ipsum"
+            />
+          ))}
+        </BookmarksContainer>
+      )}
+      {activeItem === 'settings' && <h1>Settings</h1>}
+      <BottomNavigation activeItem={activeItem} setActiveItem={setActiveItem} />
     </Container>
   );
 }
@@ -134,10 +160,28 @@ const Container = styled.div`
   padding: 12px;
 `;
 
+const Title = styled.h1`
+  color: black;
+  text-align: center;
+  font-size: 1.75rem;
+  padding-top: 16px;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
 const WordContainer = styled.div`
   width: 100%;
   padding: 12px;
+`;
 
+const BookmarksContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  padding: 0px 12px;
 `;
 
 const LoadingText = styled.p`

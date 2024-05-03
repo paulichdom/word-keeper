@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import BookmarkToggle from '../BookmarkToggle';
+//import BookmarkToggle from '../BookmarkToggle';
 import { Volume2 } from 'react-feather';
+import TransformingButton from '../TransformingButton';
 
 type WordCardProps = {
   word: string;
@@ -19,7 +20,8 @@ const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => (
     <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
     <Definition>{definition}</Definition>
     <Footer>
-      <BookmarkToggle />
+      {/* <BookmarkToggle /> */}
+      <TransformingButton />
     </Footer>
   </Wrapper>
 );
@@ -68,21 +70,18 @@ const VolumeIcon = styled(Volume2)`
 
 const Word = styled.h2`
   color: black;
-  font-family: 'Cinzel', serif;
   text-align: center;
   padding-bottom: 2px;
 `;
 
 const PartOfSpeech = styled.span`
   color: #666;
-  font-family: 'Open Sans', sans-serif;
   font-size: 0.8em;
   text-align: center;
 `;
 
 const Definition = styled.p`
   color: black;
-  font-family: 'Open Sans', sans-serif;
   text-align: left;
   font-size: 0.95em;
 `;

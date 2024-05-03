@@ -8,6 +8,7 @@ type WordCardProps = {
   partOfSpeech: string;
 };
 
+// TODO: extract Word as a componet, and Card as a component
 const WordCard = ({ word, definition, partOfSpeech }: WordCardProps) => (
   <Card>
     <Header>
@@ -52,38 +53,35 @@ const IconWrapper = styled.div`
   width: 36px;
   height: 36px;
   cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: rgb(21, 128, 250);
   border-radius: 50%;
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.16);
+    background-color: rgb(21, 88, 214);
   }
 `;
 
 const VolumeIcon = styled(Volume2)`
-  color: rgba(0, 0, 0, 0.6);
+  color: white;
   width: 22px;
   height: 22px;
 `;
 
 const Word = styled.h2`
   color: black;
-  font-family: 'Cinzel', serif;
   text-align: center;
   padding-bottom: 2px;
 `;
 
 const PartOfSpeech = styled.span`
   color: #666;
-  font-family: 'Open Sans', sans-serif;
   font-size: 0.8em;
   text-align: center;
 `;
 
 const Definition = styled.p`
   color: black;
-  font-family: 'Open Sans', sans-serif;
   text-align: left;
   font-size: 0.95em;
 `;

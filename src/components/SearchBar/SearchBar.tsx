@@ -7,7 +7,7 @@ type SearchBarProps = {
 
 const SearchBar = ({ handleChange, handleSubmit }: SearchBarProps) => (
   <SearchContainer>
-    <Title>Word Keeper</Title>
+    
     <Form onSubmit={handleSubmit}>
       <SearchInput
         type="text"
@@ -26,40 +26,25 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px 0px 0px;
   width: 100%;
   gap: 16px;
 `;
 
-const Title = styled.h1`
-  color: black;
-  font-family: 'Cinzel', serif;
-  text-align: center;
-  font-size: 1.75rem;
-
-  @media (min-width: 768px) {
-    font-size: 2rem;
-  }
-`;
-
 const SearchInput = styled.input`
-  width: calc(100% - 6px);  // Adjust width to consider padding from Form
-  padding: 10px;
-  border: 2px solid #ccc;  // Lighter border for subtlety
+  width: calc(100% - 6px);  
+  padding: 10px 12px;
+  border: 2px solid #ccc;
   border-radius: 15px;
-  font-family: 'Cinzel', serif;
-  background-color: #f9f9f9;  // Slightly off-white background for contrast
+  background-color: #f9f9f9;
   color: black;
   font-size: 1rem;
-  outline: none;  // Removes the default focus outline
-  transition: border-color 0.3s;  // Smooth transition for border color
+  outline: none;
+  transition: border-color 0.3s; 
 
   &:focus {
-    border-color: black;  // Changes border color on focus for better visibility
+    border-color: black;
   }
 `;
-
-
 
 const Form = styled.form`
   width: 100%;

@@ -4,7 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components';
 
 const Button = styled(animated.button)`
-  background-color: transparent; // Keeping the background transparent
+  background-color: transparent;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -13,8 +13,8 @@ const Button = styled(animated.button)`
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 35px; // Customize button size as needed
-  height: 35px; // Customize button size as needed
+  width: 35px;
+  height: 35px;
 `;
 
 const IconWrapper = styled(animated.div)`
@@ -27,7 +27,6 @@ const IconWrapper = styled(animated.div)`
 const TransformingButton = () => {
   const [isToggled, setIsToggled] = useState(false);
 
-  // Animation for the PlusCircle to CheckCircle transformation
   const { transform, opacity } = useSpring({
     opacity: isToggled ? 1 : 0,
     transform: `rotate(${isToggled ? 180 : 0}deg)`,
@@ -42,7 +41,7 @@ const TransformingButton = () => {
           transform,
         }}
       >
-        <PlusCircle color="#8c7b6b" size={48} />
+        <PlusCircle color="#8c7b6b" size={28}/>
       </IconWrapper>
       <IconWrapper
         style={{
@@ -50,7 +49,7 @@ const TransformingButton = () => {
           transform: transform.interpolate(t => `${t} rotate(180deg)`),
         }}
       >
-        <CheckCircle color="#4CAF50" size={48} />
+        <CheckCircle color="#4CAF50" size={28}/>
       </IconWrapper>
     </Button>
   );
