@@ -8,7 +8,7 @@ type WordCardProps = {
   partOfSpeech: string;
 };
 
-const WordCard = ({ word, definition, partOfSpeech }: WordCardProps) => (
+const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => (
   <Card>
     <Header>
       <IconWrapper>
@@ -24,13 +24,13 @@ const WordCard = ({ word, definition, partOfSpeech }: WordCardProps) => (
   </Card>
 );
 
-export default WordCard;
+export default SearchResult;
 
 const Card = styled.div`
   background-color: #fff;
   border-radius: 10px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
-  padding: 16px;
+  //box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  padding: 0px 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { DictionaryEntry } from './types';
 import SearchBar from './components/SearchBar';
-import WordCard from './components/WordCard/WordCard';
+//import WordCard from './components/WordCard/WordCard';
 //import { useQuery } from 'convex/react';
 //import { api } from '../convex/_generated/api';
 
 import './App.css';
-
+import SearchResult from './components/SearchResult';
 
 interface WordResult {
   word: string;
@@ -111,7 +111,7 @@ export default function App() {
       <WordContainer>
         {isLoading && <LoadingText>Searching for word...</LoadingText>}
         {!isLoading && hasWordData && (
-          <WordCard
+          <SearchResult
             word={wordResult.word}
             definition={wordResult.definition}
             partOfSpeech={wordResult.partOfSpeech}
