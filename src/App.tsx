@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { DictionaryEntry } from './types';
 import SearchBar from './components/SearchBar';
 //import WordCard from './components/WordCard/WordCard';
-//import { useQuery } from 'convex/react';
-//import { api } from '../convex/_generated/api';
+import { useQuery } from 'convex/react';
+import { api } from '../convex/_generated/api';
 
 import './App.css';
 import SearchResult from './components/SearchResult';
@@ -37,8 +37,8 @@ interface WordResult {
  * Could use more different apis to get better results
  */
 export default function App() {
-  //const dictionary = useQuery(api.dictionary.get);
-  //console.log({ dictionary });
+  const dictionary = useQuery(api.dictionary.get);
+  console.log({ dictionary });
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
     word: '',
@@ -157,6 +157,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  max-width: 450px;
   padding: 12px;
 `;
 

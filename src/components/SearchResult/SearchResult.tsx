@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 //import BookmarkToggle from '../BookmarkToggle';
 import { Volume2 } from 'react-feather';
-import TransformingButton from '../TransformingButton';
+//import TransformingButton from '../TransformingButton';
+import { useMutation } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
 
 type WordCardProps = {
   word: string;
@@ -9,22 +11,31 @@ type WordCardProps = {
   partOfSpeech: string;
 };
 
-const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => (
-  <Wrapper>
-    <Header>
-      <IconWrapper>
-        <VolumeIcon />
-      </IconWrapper>
-      <Word>{word}</Word>
-    </Header>
-    <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
-    <Definition>{definition}</Definition>
-    <Footer>
-      {/* <BookmarkToggle /> */}
-      <TransformingButton />
-    </Footer>
-  </Wrapper>
-);
+const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => {
+  const addToList = useMutation(api.dictionary.send);
+  return (
+    <Wrapper>
+      <Header>
+        <IconWrapper>
+          <VolumeIcon />
+        </IconWrapper>
+        <Word>{word}</Word>
+      </Header>
+      <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
+      <Definition>{definition}</Definition>
+      <Footer>
+        {/* <TransformingButton /> */}
+        <button
+          onClick={async () =>
+            await addToList({ word, part_of_speech: partOfSpeech, definition })
+          }
+        >
+          Add to list
+        </button>
+      </Footer>
+    </Wrapper>
+  );
+};
 
 export default SearchResult;
 

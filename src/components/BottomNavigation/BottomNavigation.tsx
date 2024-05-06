@@ -9,7 +9,15 @@ type NavItemProps = {
 };
 
 const BottomNavigation = ({ setActiveItem, activeItem }: NavItemProps) => {
-  const NavItem = ({ id, Icon, label }: { id: NavItemId; Icon: React.ElementType; label: string }) => (
+  const NavItem = ({
+    id,
+    Icon,
+    label,
+  }: {
+    id: NavItemId;
+    Icon: React.ElementType;
+    label: string;
+  }) => (
     <NavItemContainer
       active={activeItem === id}
       onClick={() => setActiveItem(id)}
@@ -42,6 +50,7 @@ const NavBar = styled.nav`
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   padding: 16px 24px 12px;
   z-index: 1000;
+  width: 100%;
 `;
 
 const NavItemContainer = styled.div<{ active: boolean }>`
@@ -49,7 +58,8 @@ const NavItemContainer = styled.div<{ active: boolean }>`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  color: ${({ active }) => active ? 'rgb(25, 118, 210)' : 'rgba(0, 0, 0, 0.6)'};
+  color: ${({ active }) =>
+    active ? 'rgb(25, 118, 210)' : 'rgba(0, 0, 0, 0.6)'};
 `;
 
 const Label = styled.span`
