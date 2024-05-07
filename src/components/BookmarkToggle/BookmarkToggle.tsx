@@ -1,10 +1,34 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { Bookmark } from 'react-feather';
+import { MutationResponse } from '../../../convex/dictionary';
 
-const BookmarkToggle = () => {
+interface BookmarkToggleProps {
+  handleAddToList:  () => Promise<MutationResponse>
+}
+
+const BookmarkToggle = ({handleAddToList}: BookmarkToggleProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
-  const toggleBookmark = () => setIsBookmarked(!isBookmarked);
+  // TODO: handle remove bookmark action
+  // TODO: handle unique constraint
+  const toggleBookmark = async () => {
+    try {
+      // Attempt to execute the handleClick, which performs the mutation
+      const result = await handleAddToList();
+      console.log({result})
+      // Update the state based on the mutation's success
+      if (result.success) {
+        setIsBookmarked(!isBookmarked);
+      } else {
+        // Handle the case where mutation is not successful
+        console.error('Failed to update bookmark status.');
+      }
+    } catch (error) {
+      // Handle any errors that occur during the mutation
+      console.error('Error updating bookmark:', error);
+    }
+  };
+
 
   return (
     <FavoriteButton

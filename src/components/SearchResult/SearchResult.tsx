@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 //import BookmarkToggle from '../BookmarkToggle';
 import { Volume2 } from 'react-feather';
-//import TransformingButton from '../TransformingButton';
 import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
+import TransformingButton from '../TransformingButton';
 
 type WordCardProps = {
   word: string;
@@ -13,6 +13,11 @@ type WordCardProps = {
 
 const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => {
   const addToList = useMutation(api.dictionary.send);
+
+  const handleAddToList = async () => {
+    return await addToList({ word, part_of_speech: partOfSpeech, definition });
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -24,14 +29,7 @@ const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => {
       <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
       <Definition>{definition}</Definition>
       <Footer>
-        {/* <TransformingButton /> */}
-        <button
-          onClick={async () =>
-            await addToList({ word, part_of_speech: partOfSpeech, definition })
-          }
-        >
-          Add to list
-        </button>
+        <TransformingButton handleAddToList={handleAddToList}/>
       </Footer>
     </Wrapper>
   );
