@@ -2,15 +2,14 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { DictionaryEntry } from './types';
 import SearchBar from './components/SearchBar';
-//import WordCard from './components/WordCard/WordCard';
-import { useQuery } from 'convex/react';
+import { Authenticated, Unauthenticated, useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
-
 import './App.css';
 import SearchResult from './components/SearchResult';
 import BottomNavigation, { NavItemId } from './components/BottomNavigation';
 import WordCard from './components/WordCard';
-import range from './utils';
+import { SignInButton, UserButton } from '@clerk/clerk-react';
+import { Divide } from 'react-feather';
 
 interface WordResult {
   word: string;
@@ -23,7 +22,6 @@ interface WordResult {
 
 /**
  * TODO:
- * 1) Use convex for storing word data
  * 2) API: https://dictionaryapi.dev/
  * 3) API 2: https://www.twinword.com/api/word-dictionary.php
  * 4) Combine api's for better results
@@ -39,6 +37,7 @@ interface WordResult {
 export default function App() {
   const dictionary = useQuery(api.dictionary.get);
   console.log({ dictionary });
+
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
     word: '',
@@ -112,41 +111,54 @@ export default function App() {
 
   // TODO: impl header -> body -> footer structure
   return (
-    <Container>
-      <Title>Word keeper</Title>
-      {activeItem === 'search' && (
-        <>
-          <SearchBar
-            handleChange={setInputValue}
-            handleSubmit={handleFormSubmit}
-          />
-          <WordContainer>
-            {isLoading && <LoadingText>Searching for word...</LoadingText>}
-            {!isLoading && hasWordData && (
-              <SearchResult
-                word={wordResult.word}
-                definition={wordResult.definition}
-                partOfSpeech={wordResult.partOfSpeech}
+    <main>
+      <Unauthenticated>
+        <SignInButton mode='modal'/>
+      </Unauthenticated>
+      <Authenticated>
+        <Container>
+          <Title>Word keeper</Title>
+          {activeItem === 'search' && (
+            <>
+              <SearchBar
+                handleChange={setInputValue}
+                handleSubmit={handleFormSubmit}
               />
-            )}
-          </WordContainer>
-        </>
-      )}
-      {activeItem === 'bookmarks' && (
-        <BookmarksContainer>
-          {range(5).map((num) => (
-            <WordCard
-              key={num}
-              word="Test"
-              partOfSpeech="noun"
-              definition="Lorem ipsum"
-            />
-          ))}
-        </BookmarksContainer>
-      )}
-      {activeItem === 'settings' && <h1>Settings</h1>}
-      <BottomNavigation activeItem={activeItem} setActiveItem={setActiveItem} />
-    </Container>
+              <WordContainer>
+                {isLoading && <LoadingText>Searching for word...</LoadingText>}
+                {!isLoading && hasWordData && (
+                  <SearchResult
+                    word={wordResult.word}
+                    definition={wordResult.definition}
+                    partOfSpeech={wordResult.partOfSpeech}
+                  />
+                )}
+              </WordContainer>
+            </>
+          )}
+          {activeItem === 'bookmarks' && (
+            <BookmarksContainer>
+              {dictionary &&
+                dictionary.map(({ _id, word, definition, part_of_speech }) => (
+                  <WordCard
+                    key={_id}
+                    word={word}
+                    partOfSpeech={part_of_speech}
+                    definition={definition}
+                  />
+                ))}
+            </BookmarksContainer>
+          )}
+          {activeItem === 'settings' && <div>
+            <UserButton />
+            </div>}
+          <BottomNavigation
+            activeItem={activeItem}
+            setActiveItem={setActiveItem}
+          />
+        </Container>
+      </Authenticated>
+    </main>
   );
 }
 
