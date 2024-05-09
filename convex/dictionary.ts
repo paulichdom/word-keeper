@@ -4,7 +4,7 @@ import { mutation, query } from './_generated/server';
 export const get = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db.query('dictionary').collect();
+    return await ctx.db.query('dictionary').order('desc').collect();
   },
 });
 
@@ -25,7 +25,7 @@ interface ErrorResponse {
 
 export type MutationResponse = SuccessResponse | ErrorResponse;
 
-export const send = mutation({
+export const insertWord = mutation({
   args: {
     word: v.string(),
     part_of_speech: v.string(),

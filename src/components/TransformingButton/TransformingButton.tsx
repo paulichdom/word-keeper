@@ -49,7 +49,7 @@ const TransformingButton = ({ handleAddToList }: TransformingButtonProps) => {
           transform,
         }}
       >
-        <PlusCircle color="#8c7b6b" size={28} />
+        <PlusCircle color="rgb(144, 154, 173)" size={28} />
       </IconWrapper>
       <IconWrapper
         style={{

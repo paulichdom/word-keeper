@@ -7,4 +7,9 @@ export default defineSchema({
     part_of_speech: v.string(),
     definition: v.string(),
   }),
+  users: defineTable({
+    // this is UserJSON from @clerk/backend
+    clerkUser: v.any(),
+    color: v.string(),
+  }).index("by_clerk_id", ["clerkUser.id"]),
 });

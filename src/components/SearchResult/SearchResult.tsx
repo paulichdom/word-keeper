@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-//import BookmarkToggle from '../BookmarkToggle';
 import { Volume2 } from 'react-feather';
 import { useMutation } from 'convex/react';
 import { api } from '../../../convex/_generated/api';
@@ -12,7 +11,7 @@ type WordCardProps = {
 };
 
 const SearchResult = ({ word, definition, partOfSpeech }: WordCardProps) => {
-  const addToList = useMutation(api.dictionary.send);
+  const addToList = useMutation(api.dictionary.insertWord);
 
   const handleAddToList = async () => {
     return await addToList({ word, part_of_speech: partOfSpeech, definition });
@@ -99,4 +98,6 @@ const Footer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row-reverse;
+  padding-top: 6px;
+  border-top: 1px solid grey;
 `;

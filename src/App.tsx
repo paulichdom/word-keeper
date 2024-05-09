@@ -9,7 +9,6 @@ import SearchResult from './components/SearchResult';
 import BottomNavigation, { NavItemId } from './components/BottomNavigation';
 import WordCard from './components/WordCard';
 import { SignInButton, UserButton } from '@clerk/clerk-react';
-import { Divide } from 'react-feather';
 
 interface WordResult {
   word: string;

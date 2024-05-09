@@ -29,8 +29,9 @@ export default WordCard;
 
 const Card = styled.div`
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   padding: 16px;
   display: flex;
   flex-direction: column;
