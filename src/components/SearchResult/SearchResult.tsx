@@ -39,7 +39,6 @@ export default SearchResult;
 const Wrapper = styled.div`
   background-color: #fff;
   border-radius: 10px;
-  padding: 0px 16px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -99,5 +98,4 @@ const Footer = styled.div`
   display: flex;
   flex-direction: row-reverse;
   padding-top: 6px;
-  border-top: 1px solid grey;
 `;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DictionaryEntry } from './types';
 import SearchBar from './components/SearchBar';
 import { Authenticated, Unauthenticated, useQuery } from 'convex/react';
@@ -35,7 +35,6 @@ interface WordResult {
  */
 export default function App() {
   const dictionary = useQuery(api.dictionary.get);
-  console.log({ dictionary });
 
   const [inputValue, setInputValue] = useState<string>('');
   const [wordResult, setWordResult] = useState<WordResult>({
@@ -109,13 +108,24 @@ export default function App() {
   const hasWordData = isWordResultValid(wordResult);
 
   // TODO: impl header -> body -> footer structure
+
+  const [bottomNavHeight, setBottomNavHeight] = useState(0);
+  const bottomNavRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (bottomNavRef.current) {
+      console.log({ bottomNavRef });
+      setBottomNavHeight(bottomNavRef.current.clientHeight);
+    }
+  }, []);
+
   return (
     <main>
       <Unauthenticated>
-        <SignInButton mode='modal'/>
+        <SignInButton mode="modal" />
       </Unauthenticated>
       <Authenticated>
-        <Container>
+        <Container style={{ paddingBottom: `${bottomNavHeight}px` }}>
           <Title>Word keeper</Title>
           {activeItem === 'search' && (
             <>
@@ -148,14 +158,17 @@ export default function App() {
                 ))}
             </BookmarksContainer>
           )}
-          {activeItem === 'settings' && <div>
-            <UserButton />
-            </div>}
-          <BottomNavigation
-            activeItem={activeItem}
-            setActiveItem={setActiveItem}
-          />
+          {activeItem === 'settings' && (
+            <div>
+              <UserButton />
+            </div>
+          )}
         </Container>
+        <BottomNavigation
+          ref={bottomNavRef}
+          activeItem={activeItem}
+          setActiveItem={setActiveItem}
+        />
       </Authenticated>
     </main>
   );
@@ -193,7 +206,6 @@ const BookmarksContainer = styled.div`
   flex-direction: column;
   gap: 16px;
   width: 100%;
-  padding: 0px 12px;
 `;
 
 const LoadingText = styled.p`

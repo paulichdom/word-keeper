@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Search, Settings, Bookmark } from 'react-feather';
+import { forwardRef } from 'react';
 
 export type NavItemId = 'search' | 'bookmarks' | 'settings';
 
@@ -8,33 +9,35 @@ type NavItemProps = {
   setActiveItem: (item: NavItemId) => void;
 };
 
-const BottomNavigation = ({ setActiveItem, activeItem }: NavItemProps) => {
-  const NavItem = ({
-    id,
-    Icon,
-    label,
-  }: {
-    id: NavItemId;
-    Icon: React.ElementType;
-    label: string;
-  }) => (
-    <NavItemContainer
-      active={activeItem === id}
-      onClick={() => setActiveItem(id)}
-    >
-      <Icon />
-      <Label>{label}</Label>
-    </NavItemContainer>
-  );
+const BottomNavigation = forwardRef<HTMLElement, NavItemProps>(
+  ({ setActiveItem, activeItem }, bottomNavRef) => {
+    const NavItem = ({
+      id,
+      Icon,
+      label,
+    }: {
+      id: NavItemId;
+      Icon: React.ElementType;
+      label: string;
+    }) => (
+      <NavItemContainer
+        $active={activeItem === id}
+        onClick={() => setActiveItem(id)}
+      >
+        <Icon />
+        <Label>{label}</Label>
+      </NavItemContainer>
+    );
 
-  return (
-    <NavBar>
-      <NavItem id="search" Icon={Search} label="Search" />
-      <NavItem id="bookmarks" Icon={Bookmark} label="Bookmarks" />
-      <NavItem id="settings" Icon={Settings} label="Settings" />
-    </NavBar>
-  );
-};
+    return (
+      <NavBar ref={bottomNavRef}>
+        <NavItem id="search" Icon={Search} label="Search" />
+        <NavItem id="bookmarks" Icon={Bookmark} label="Bookmarks" />
+        <NavItem id="settings" Icon={Settings} label="Settings" />
+      </NavBar>
+    );
+  }
+);
 
 export default BottomNavigation;
 
@@ -53,13 +56,17 @@ const NavBar = styled.nav`
   width: 100%;
 `;
 
-const NavItemContainer = styled.div<{ active: boolean }>`
+type NavItemContainerProps = {
+  $active: boolean;
+};
+
+const NavItemContainer = styled.div<NavItemContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  color: ${({ active }) =>
-    active ? 'rgb(25, 118, 210)' : 'rgba(0, 0, 0, 0.6)'};
+  color: ${({ $active }) =>
+    $active ? 'rgb(25, 118, 210)' : 'rgba(0, 0, 0, 0.6)'};
 `;
 
 const Label = styled.span`

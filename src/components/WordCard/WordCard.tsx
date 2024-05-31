@@ -20,7 +20,11 @@ const WordCard = ({ word, definition, partOfSpeech }: WordCardProps) => (
     <PartOfSpeech>{partOfSpeech}</PartOfSpeech>
     <Definition>{definition}</Definition>
     <Footer>
-      <BookmarkToggle />
+      <BookmarkToggle
+        handleAddToList={() => {
+          return Promise.resolve({ success: true, message: 'Juhuuu' });
+        }}
+      />
     </Footer>
   </Card>
 );
@@ -30,8 +34,8 @@ export default WordCard;
 const Card = styled.div`
   background-color: #fff;
   border-radius: 8px;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 16px;
   display: flex;
   flex-direction: column;
