@@ -17,7 +17,6 @@ const TransformingButton = ({ handleAddToList }: TransformingButtonProps) => {
     try {
       // Attempt to execute the handleClick, which performs the mutation
       const result = await handleAddToList();
-      console.log({ result });
       // Update the state based on the mutation's success
       if (result.success) {
         setIsToggled(!isToggled);

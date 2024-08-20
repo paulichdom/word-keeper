@@ -2,13 +2,12 @@ import styled from 'styled-components';
 import { useEffect, useRef, useState } from 'react';
 import { DictionaryEntry } from './types';
 import SearchBar from './components/SearchBar';
-import { Authenticated, Unauthenticated, useQuery } from 'convex/react';
+import { useQuery } from 'convex/react';
 import { api } from '../convex/_generated/api';
 import './App.css';
 import SearchResult from './components/SearchResult';
 import BottomNavigation, { NavItemId } from './components/BottomNavigation';
 import WordCard from './components/WordCard';
-import { SignInButton, UserButton } from '@clerk/clerk-react';
 
 interface WordResult {
   word: string;
@@ -114,62 +113,52 @@ export default function App() {
 
   useEffect(() => {
     if (bottomNavRef.current) {
-      console.log({ bottomNavRef });
       setBottomNavHeight(bottomNavRef.current.clientHeight);
     }
   }, []);
 
   return (
     <main>
-      <Unauthenticated>
-        <SignInButton mode="modal" />
-      </Unauthenticated>
-      <Authenticated>
-        <Container style={{ paddingBottom: `${bottomNavHeight}px` }}>
-          <Title>Word keeper</Title>
-          {activeItem === 'search' && (
-            <>
-              <SearchBar
-                handleChange={setInputValue}
-                handleSubmit={handleFormSubmit}
-              />
-              <WordContainer>
-                {isLoading && <LoadingText>Searching for word...</LoadingText>}
-                {!isLoading && hasWordData && (
-                  <SearchResult
-                    word={wordResult.word}
-                    definition={wordResult.definition}
-                    partOfSpeech={wordResult.partOfSpeech}
-                  />
-                )}
-              </WordContainer>
-            </>
-          )}
-          {activeItem === 'bookmarks' && (
-            <BookmarksContainer>
-              {dictionary &&
-                dictionary.map(({ _id, word, definition, part_of_speech }) => (
-                  <WordCard
-                    key={_id}
-                    word={word}
-                    partOfSpeech={part_of_speech}
-                    definition={definition}
-                  />
-                ))}
-            </BookmarksContainer>
-          )}
-          {activeItem === 'settings' && (
-            <div>
-              <UserButton />
-            </div>
-          )}
-        </Container>
-        <BottomNavigation
-          ref={bottomNavRef}
-          activeItem={activeItem}
-          setActiveItem={setActiveItem}
-        />
-      </Authenticated>
+      <Container style={{ paddingBottom: `${bottomNavHeight}px` }}>
+        <Title>Word keeper</Title>
+        {activeItem === 'search' && (
+          <>
+            <SearchBar
+              handleChange={setInputValue}
+              handleSubmit={handleFormSubmit}
+            />
+            <WordContainer>
+              {isLoading && <LoadingText>Searching for word...</LoadingText>}
+              {!isLoading && hasWordData && (
+                <SearchResult
+                  word={wordResult.word}
+                  definition={wordResult.definition}
+                  partOfSpeech={wordResult.partOfSpeech}
+                />
+              )}
+            </WordContainer>
+          </>
+        )}
+        {activeItem === 'bookmarks' && (
+          <BookmarksContainer>
+            {dictionary &&
+              dictionary.map(({ _id, word, definition, part_of_speech }) => (
+                <WordCard
+                  key={_id}
+                  word={word}
+                  partOfSpeech={part_of_speech}
+                  definition={definition}
+                />
+              ))}
+          </BookmarksContainer>
+        )}
+        {activeItem === 'settings' && <div>User</div>}
+      </Container>
+      <BottomNavigation
+        ref={bottomNavRef}
+        activeItem={activeItem}
+        setActiveItem={setActiveItem}
+      />
     </main>
   );
 }
